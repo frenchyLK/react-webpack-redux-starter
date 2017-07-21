@@ -8,10 +8,10 @@ module.exports = (conf) => ({
 		hints: false
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.(css|scss)$/,
-				loaders: ['style-loader', 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
+				use: ['style-loader', 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
 			}
 		]
 	},
