@@ -1,0 +1,19 @@
+.headerBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10vh;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
+  padding: 0.25em;
+  margin-bottom: 2vh;
+
+  .rightControls {
+    display: flex;
+    align-self: flex-end;
+  }
+
+  .leftControls {
+    display: flex;
+    align-self: flex-start;
+  }
+}

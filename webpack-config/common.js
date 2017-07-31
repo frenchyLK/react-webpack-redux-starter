@@ -4,7 +4,6 @@ const PATHS = require('./paths');
 const path = require('path');
 const pkg = require('../package.json');
 const webpack = require('webpack');
-const yargs = require('yargs').argv;
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -68,6 +67,7 @@ module.exports = (conf) => {
 				template: 'node_modules/html-webpack-template/index.ejs',
 				inject: false,
 				env: process.env,
+				title: 'Hello React',
 	      appMountId: 'app',
 				favicon: './favicon.ico'
 			})

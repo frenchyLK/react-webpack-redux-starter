@@ -9,7 +9,7 @@ module.exports = (conf) => ({
       analyzerPort: 8888,
       reportFilename: 'report.html',
       openAnalyzer: true,
-      generateStatsFile: false,
+      generateStatsFile: true,
       statsFilename: 'stats.json',
       statsOptions: null,
       logLevel: 'info'

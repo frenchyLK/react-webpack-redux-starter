@@ -1,29 +1,39 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { AppContainer } from 'react-hot-loader';
-import AppRouter from 'app-router';
-import { VERSION, RELEASE } from 'APP_CONFIG';
 import 'regenerator-runtime/runtime';
 import 'isomorphic-fetch';
+import ReactDOM from 'react-dom';
+import React from 'react';
+import App from 'app';
+import i18n from 'i18n';
+import { BrowserRouter } from 'react-router-dom';
+import { AppContainer } from 'react-hot-loader';
+import { I18nextProvider } from 'react-i18next';
+import { VERSION, RELEASE } from 'APP_CONFIG';
+import { Provider } from 'react-redux';
+import createStore from './store';
+import './index.scss';
 
-// this file "kicks off" the application.
-// it's where we define where our application will hook into DOM
-// and what should be used as the root component
+const store = createStore();
 
 const renderApp = (Component) => {
   ReactDOM.render(
     (<AppContainer>
-      <Component />
+      <Provider store={ store }>
+        <I18nextProvider i18n={ i18n }>
+          <BrowserRouter>
+            <Component />
+          </BrowserRouter>
+        </I18nextProvider>
+      </Provider>
     </AppContainer>),
     document.getElementById('app')
   );
 }
 
-renderApp(AppRouter);
+renderApp(App);
 
 if (module.hot) {
-  module.hot.accept('./app-router', () => {
-    const NextRoot = require('./app-router').default;
+  module.hot.accept('./app', () => {
+    const NextRoot = require('./app').default;
     renderApp(NextRoot);
   });
 }

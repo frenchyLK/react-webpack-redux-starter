@@ -15,16 +15,13 @@ export const changeLanguage = (nextLang) => {
 }
 
 /**
-  Here you can define your i18n (internationalization) configuration.
-
+  Here you can define your i18n configuration.
   Right now it makes two assumptions:
-
-  1. Your only languages are en-US and es-US
+  1. The only allowed language is en (this is easy to change)
   2. Your translations existing at the root of the project in the translations/
      folder and are named following the convention /language-code/namespace.json
-
   If those two conditions are met, you only need to ensure that you define
-  the correct name spaces along with your containers and you should be good
+  the correct namespaces along with your containers and you should be good
   to go.
 **/
 export default i18next

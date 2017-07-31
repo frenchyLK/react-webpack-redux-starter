@@ -19,7 +19,7 @@
     "es6": true
   },
   "rules": {
-    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-unreachable": "error",
     "eqeqeq": "warn",
     "react/react-in-jsx-scope": "error",

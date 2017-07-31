@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 
 module.exports = (conf) => {
 	const env = conf.env;
-	
+
 	process.env.BABEL_ENV = env;
 
 	const common = require('./webpack-config/common')(conf);

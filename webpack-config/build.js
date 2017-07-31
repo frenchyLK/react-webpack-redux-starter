@@ -10,7 +10,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (conf) => ({
   output: {
-    path: './build',
+    path: PATHS.build,
     publicPath: '/',
     filename: '[name].[hash].js'
   },
@@ -19,7 +19,7 @@ module.exports = (conf) => ({
       {
         test: /\.(scss|css|sass)?$/,
         use: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
+          fallback: 'style-loader',
           use: ['css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
         })
       }
