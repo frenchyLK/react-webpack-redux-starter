@@ -50,6 +50,8 @@
     "webpack-merge": "~4.1.0"
   },
   "dependencies": {
+    "amazon-cognito-identity-js": "~1.19.0",
+    "aws-sdk": "~2.92.0",
     "clean-webpack-plugin": "~0.1.16",
     "i18next": "~8.4.3",
     "i18next-xhr-backend": "~1.4.2",
@@ -70,6 +72,7 @@
     "redux-immutable": "~4.0.0",
     "redux-normalizr-middleware": "~2.0.0",
     "redux-saga": "~0.15.6",
+    "redux-saga-routines": "~1.1.2",
     "regenerator-runtime": "~0.10.5"
   }
 }

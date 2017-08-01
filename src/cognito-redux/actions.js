@@ -1,5 +1,3 @@
-import { createActions } from 'redux-actions';
+import { createRoutine } from 'redux-saga-routines';
 
-export const LOGIN = 'LOGIN';
-
-export const { login } = createActions(LOGIN);
+export const login = createRoutine('LOGIN');

@@ -1,12 +1,9 @@
 import hocs from 'common-hocs';
 import Login from './login.presentation';
 import validate from './validate';
-import { login } from 'cognito-redux/actions';
 
-const form = { form: 'login', validate };
+export const FORM_NAME = 'login';
 
-const mapDispatch = {
-  onSubmit: login
-};
+const form = { form: FORM_NAME, validate };
 
-export default hocs({ form, i18n: 'login', redux: { mapDispatch } })(Login);
+export default hocs({ form, i18n: 'login' })(Login);
