@@ -3,5 +3,9 @@
   "username": "Username",
   "password": "Password",
   "username_required": "Username is required",
-  "password_required": "Password is required"
+  "password_required": "Password is required",
+  "new_password_required": "Your password has expired; please click here to change it.",
+  "UserNotFoundException": "Your user with username {{ username }} was not found.",
+  "NewPasswordRequired": "Your password has expired; click here to set a new password",
+  "NotAuthorizedException": "Your password was incorrect"
 }

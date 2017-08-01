@@ -39,9 +39,18 @@ const LoggedInControls = ({ user, t }) => {
 };
 
 const Header = (props) => {
-  const { user } = props;
+  const { user, t } = props;
 
   return (<div className={ styles.headerBar }>
+    <div className={ styles.leftControls }>
+      <h4>
+        {
+          user ?
+          t('header:welcome', { username: user.get('name') }) :
+          t('header:welcome_new_user')
+        }
+      </h4>
+    </div>
     { user ? <LoggedInControls {...props} /> : <LoggedOutControls {...props} /> }
   </div>)
 };

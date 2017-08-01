@@ -17,8 +17,19 @@ export const login = ({ username, password }) => {
     cognitoUser.authenticateUser(authDetails, {
       onSuccess: resolve,
       onFailure: reject,
-      newPasswordRequired: reject,
-      mfaRequired: reject,
+      newPasswordRequired: (e) => {
+        // new password doesn't have relevant error information;
+        // so lets add a message and a code for our own purposes
+        e.message = 'New password is required for user';
+        e.code = 'NewPasswordRequired';
+        reject(e);
+      },
+      mfaRequired: (e) => {
+        // same as above
+        e.message = 'Multi-step authorization required';
+        e.code = 'MFARequired';
+        reject(e);
+      },
       customChallenge: reject
     });
   });

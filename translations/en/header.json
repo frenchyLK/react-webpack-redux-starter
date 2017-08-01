@@ -3,5 +3,7 @@
   "dashboard": "English",
   "logout": "ES - Spanish",
   "login": "Login",
-  "sign_up": "Register"
+  "sign_up": "Register",
+  "welcome": "Welcome, {{ username }}",
+  "welcome_new_user": "Welcome to the Demo App!"
 }

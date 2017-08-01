@@ -1,9 +1,17 @@
 import hocs from 'common-hocs';
 import Login from './login.presentation';
 import validate from './validate';
-
-export const FORM_NAME = 'login';
+import { selectFormValues } from './selectors';
+import { FORM_NAME } from './constants';
 
 const form = { form: FORM_NAME, validate };
 
-export default hocs({ form, i18n: 'login' })(Login);
+const mapState = state => ({
+  formValues: selectFormValues(state)
+});
+
+export default hocs({
+  form,
+  i18n: 'login',
+  redux: { mapState }
+})(Login);
