@@ -1,6 +1,6 @@
 import { login } from './actions';
 import { takeLatest, put, call } from 'redux-saga/effects'
-import { login as cognitoLogin } from './async-cognito';
+import { login as cognitoLogin } from './api';
 import { SubmissionError } from 'redux-form/immutable';
 
 function* onLogin(action) {

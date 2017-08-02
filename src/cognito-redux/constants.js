@@ -1,3 +1,4 @@
 export const ERRORS = {
-  NewPasswordRequired: 'NewPasswordRequired'
+  NewPasswordRequired: 'NewPasswordRequired',
+  PasswordAlreadySet: 'PasswordAlreadySet'
 };
