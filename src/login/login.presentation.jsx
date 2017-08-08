@@ -8,27 +8,95 @@ import { login } from 'cognito-redux/actions';
 import { ERRORS } from 'cognito-redux/constants';
 import classNames from 'classnames';
 import LoadingSpinner from 'loading-spinner';
+import { List } from 'immutable';
 
-const LoginError = ({ error , t, formValues }) => {
-  if(!error) {
-    return null;
-  }
+const MANAGED_ERRORS = List([
+  ERRORS.NewPasswordRequired, ERRORS.AttributesRequired, ERRORS.MFARequired
+]);
 
-  if(error.code === ERRORS.NewPasswordRequired) {
-    return (<div className={ styles.loginWarn }>
-      <Link to="/reset_password">
-        { t(`login:${error.code}`, { username: formValues.get('username') }) }
-      </Link>
+const LoginError = ({ error, t, formValues }) => {
+
+  if(error && !MANAGED_ERRORS.contains(error.code)) {
+    return (<div className={ styles.loginError }>
+      { t(`login:${error.code}`, { username: formValues.get('username'), message: error.message }) }
     </div>);
   }
 
-  return (<div className={ styles.loginError }>
-    { t(`login:${error.code}`, { username: formValues.get('username') }) }
+  return null;
+}
+
+const MFASection = ({ mfa, t, change }) => {
+  if(!mfa) {
+    return null;
+  }
+
+  return (<div>
+    <fieldset>
+      <br />
+      <div className={ styles.loginWarn }>
+        { t(`login:MFARequired`) }
+      </div>
+      <br />
+      <label>{ t('login:mfa_code')}</label>
+      <Field required={ true } component={ DemoField } type="text" name="mfaCode" />
+      <br />
+    </fieldset>
+    <br />
+  </div>)
+}
+
+const NewPasswordSection = ({ newPasswordRequired, t }) => {
+  if(!newPasswordRequired) {
+    return null;
+  }
+
+  return (<div>
+    <fieldset>
+      <br/>
+      <div className={ styles.loginWarn }>
+        { t(`login:NewPasswordRequired`) }
+      </div>
+      <br />
+      <label>{ t('login:new_password')}</label>
+      <Field required={ true } component={ DemoField } type="text" name="newPassword" />
+      <br />
+      </fieldset>
+    <br/>
+  </div>);
+}
+
+const AdditionalAttributesSection = ({ attributesRequired, t }) => {
+
+  if(!attributesRequired || attributesRequired.length === 0) {
+    return null;
+  }
+
+  return (<div>
+    <fieldset>
+      <br/>
+      <div className={ styles.loginWarn }>
+        { t(`login:AttributesRequired`) }
+      </div>
+      <br/>
+      {
+        attributesRequired.map((attr, i) => (
+          <div key={ `${attr}:${i}`}>
+            <label>{ t(`login:${attr}`)}</label>
+            <Field required={ true } component={ DemoField } type="text" name={ `attributesData.${attr}` } />
+            <br />
+          </div>
+        ))
+      }
+    </fieldset>
+    <br />
   </div>);
 }
 
 const Login = (props) => {
-  const { t, valid, handleSubmit, submitting } = props;
+  const {
+    t, valid, handleSubmit, submitting
+  } = props;
+
   const finalFormClassName = classNames(
     styles.loginForm,
     { [styles.submitting]: submitting }
@@ -46,6 +114,9 @@ const Login = (props) => {
           <label>{ t('login:password') }</label>
           <Field component={ DemoField } type="password" name="password" />
           <br />
+          <NewPasswordSection { ...props } />
+          <AdditionalAttributesSection { ...props } />
+          <MFASection { ...props } />
           <input type="submit" value="Login" disabled={ !valid || submitting } />
           <br />
           <LoginError { ...props } />
@@ -56,15 +127,15 @@ const Login = (props) => {
     )
 };
 
-LoginError.propTypes = Login.propTypes = {
+MFASection.propTypes = AdditionalAttributesSection.propTypes = NewPasswordSection.propTypes = LoginError.propTypes = Login.propTypes = {
   t: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   valid: PropTypes.bool,
+  newPasswordRequired: PropTypes.bool,
   error: PropTypes.shape({
-    code: PropTypes.oneOf([
-      'UserNotFoundException', 'NotAuthorizedException', 'NewPasswordRequired'
-    ])
+    code: PropTypes.oneOf(Object.values(ERRORS))
   }),
+  attributesRequired: PropTypes.arrayOf(PropTypes.string),
   handleSubmit: PropTypes.func.isRequired
 }
 

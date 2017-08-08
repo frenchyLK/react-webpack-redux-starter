@@ -9,5 +9,13 @@ export default (values) => {
     errors.password = 'login:password_required';
   }
 
+  if(!values.get('newPassword')) {
+    errors.newPassword = 'login:new_password_required';
+  }
+
+  if(!values.get('mfaCode')) {
+    errors.mfaCode = 'login:mfa_code_required';
+  }
+
   return errors;
 };

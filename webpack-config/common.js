@@ -10,12 +10,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (conf) => {
 
 	const APP_CONFIG = {
-		FB_APP_ID: conf.FB_APP_ID || '1616956521945061',
 		RELEASE: new Date().getTime(),
 		VERSION: pkg.version,
 		COGNITO_POOL_DETAILS: {
-			UserPoolId: 'us-east-1_hvl1V7tye',
-			ClientId: '58nsulpu15tmfnv024qqoq5p1s'
+			UserPoolId: 'us-east-1_UeBJg8A9m',
+			ClientId: '5m1qu03u2blg3tlrllevuk82u6'
 		}
 	};
 

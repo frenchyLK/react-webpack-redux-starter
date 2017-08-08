@@ -1,4 +1,9 @@
 export const ERRORS = {
   NewPasswordRequired: 'NewPasswordRequired',
-  PasswordAlreadySet: 'PasswordAlreadySet'
+  PasswordAlreadySet: 'PasswordAlreadySet',
+  AttributesRequired: 'AttributesRequired',
+  NotAuthorizedException: 'NotAuthorizedException',
+  InvalidParameterException: 'InvalidParameterException',
+  MFARequired: 'MFARequired',
+  InvalidPasswordException: 'InvalidPasswordException'
 };
