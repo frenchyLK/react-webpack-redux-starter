@@ -3,6 +3,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import normalizrMiddleware from 'redux-normalizr-middleware';
 import cognitoSagas from 'cognito-redux/sagas';
+import loginSagas from 'login/sagas';
 import { routinesWatcherSaga } from 'redux-saga-routines';
 import { Map } from 'immutable';
 
@@ -13,7 +14,8 @@ const middlewares = [sagaMiddleware, normalizrMiddleware()];
 
 const defaultSagas = [
   routinesWatcherSaga,
-  cognitoSagas
+  cognitoSagas,
+  loginSagas
 ];
 
 export default (defaultState = Map()) => {

@@ -25,7 +25,7 @@ const LoginError = ({ error, t, formValues }) => {
   return null;
 }
 
-const MFASection = ({ mfa, t, change }) => {
+const MFASection = ({ mfa, t }) => {
   if(!mfa) {
     return null;
   }
@@ -65,6 +65,17 @@ const NewPasswordSection = ({ newPasswordRequired, t }) => {
   </div>);
 }
 
+const LoginSection = ({ t }) => {
+  return (<div>
+    <label>{ t('login:username') }</label>
+    <Field component={ DemoField } type="text" name="username" />
+    <br />
+    <label>{ t('login:password') }</label>
+    <Field component={ DemoField } type="password" name="password" />
+    <br />
+  </div>)
+}
+
 const AdditionalAttributesSection = ({ attributesRequired, t }) => {
 
   if(!attributesRequired || attributesRequired.length === 0) {
@@ -94,7 +105,9 @@ const AdditionalAttributesSection = ({ attributesRequired, t }) => {
 
 const Login = (props) => {
   const {
-    t, valid, handleSubmit, submitting
+    t, valid, handleSubmit, submitting,
+    newPasswordRequired, attributesRequired,
+    mfaRequired
   } = props;
 
   const finalFormClassName = classNames(
@@ -102,21 +115,18 @@ const Login = (props) => {
     { [styles.submitting]: submitting }
   )
 
+  const loginRequired = !newPasswordRequired && !attributesRequired && !mfaRequired;
+
   return (
     <div className={ styles.loginPage }>
       <form onSubmit={ handleSubmit(login) } disabled={ !valid || submitting }>
         <div className={ finalFormClassName }>
           <h1>Login</h1>
           { submitting ? (<div className={ styles.spinner }><LoadingSpinner /></div>) : null }
-          <label>{ t('login:username') }</label>
-          <Field component={ DemoField } type="text" name="username" />
-          <br />
-          <label>{ t('login:password') }</label>
-          <Field component={ DemoField } type="password" name="password" />
-          <br />
-          <NewPasswordSection { ...props } />
-          <AdditionalAttributesSection { ...props } />
-          <MFASection { ...props } />
+          { loginRequired ? <LoginSection { ...props } /> : null }
+          { newPasswordRequired ? <NewPasswordSection { ...props } /> : null }
+          { attributesRequired ? <AdditionalAttributesSection { ...props } /> : null }
+          { mfaRequired ? <MFASection { ...props } /> : null }
           <input type="submit" value="Login" disabled={ !valid || submitting } />
           <br />
           <LoginError { ...props } />
@@ -127,7 +137,9 @@ const Login = (props) => {
     )
 };
 
-MFASection.propTypes = AdditionalAttributesSection.propTypes = NewPasswordSection.propTypes = LoginError.propTypes = Login.propTypes = {
+LoginSection.propTypes = MFASection.propTypes =
+AdditionalAttributesSection.propTypes = NewPasswordSection.propTypes =
+LoginError.propTypes = Login.propTypes = {
   t: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   valid: PropTypes.bool,
@@ -136,6 +148,10 @@ MFASection.propTypes = AdditionalAttributesSection.propTypes = NewPasswordSectio
     code: PropTypes.oneOf(Object.values(ERRORS))
   }),
   attributesRequired: PropTypes.arrayOf(PropTypes.string),
+  mfaRequired: PropTypes.bool,
+  mfa: PropTypes.shape({
+    session: PropTypes.string.isRequired
+  }),
   handleSubmit: PropTypes.func.isRequired
 }
 

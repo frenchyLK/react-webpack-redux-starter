@@ -31,6 +31,8 @@ export default handleActions({
     )
     .update(
       'mfa',
-      mfa => payload.errors._error.code === ERRORS.MFARequired ? fromJS({ session: payload.errors._error.session }) : mfa
+      mfa => payload.errors._error.code === ERRORS.MFARequired ?
+        fromJS({ session: payload.errors._error.session }) :
+        mfa
     )
 }, Map())
