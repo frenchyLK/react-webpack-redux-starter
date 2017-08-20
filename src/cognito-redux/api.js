@@ -33,7 +33,7 @@ class CognitoAuthorizer {
       Username: username
     });
 
-    this.user.session = session;
+    this.user.Session = session;
 
     this._promise = new Promise((resolve, reject) => {
       this._resolve = resolve;
@@ -93,7 +93,10 @@ class CognitoAuthorizer {
       return this.user.sendMFACode(mfaCode);
     }
 
-    return this._reject({ code: ERRORS.MFARequired, session: this.user.Session });
+    return this._reject({
+      code: ERRORS.MFARequired,
+      session: this.user.Session
+    });
   }
 
   customChallenge(e) {

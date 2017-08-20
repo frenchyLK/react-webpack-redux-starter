@@ -13,8 +13,8 @@ module.exports = (conf) => {
 		RELEASE: new Date().getTime(),
 		VERSION: pkg.version,
 		COGNITO_POOL_DETAILS: {
-			UserPoolId: 'us-east-1_UeBJg8A9m',
-			ClientId: '5m1qu03u2blg3tlrllevuk82u6'
+			UserPoolId: 'us-east-1_uZnV6X67E',
+			ClientId: '7aecufhfkk4s81daar8dqhm141'
 		}
 	};
 

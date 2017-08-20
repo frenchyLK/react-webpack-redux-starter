@@ -1,23 +1,30 @@
 import { REDUCER_NAME } from './reducer';
 import { createSelector } from 'reselect';
+import { Map } from 'immutable';
 
 const selectReducer = state => state.get(REDUCER_NAME);
 
-export const selectNewPasswordRequired = createSelector(
+export const selectUser = createSelector(
   [selectReducer],
-  reducer => reducer.get(['loginErrors', 'newPasswordRequired'])
+  reducer => reducer.get('user', null) 
+)
+
+const selectLoginErrors = createSelector(
+  [selectReducer],
+  reducer => reducer.get('loginErrors', Map())
+);
+
+export const selectNewPasswordRequired = createSelector(
+  [selectLoginErrors],
+  errors => errors.get('newPasswordRequired')
 )
 
 export const selectAttributesRequired = createSelector(
-  [selectReducer],
-  reducer => reducer.getIn(['loginErrors', 'attributesRequired'])
+  [selectLoginErrors],
+  errors => errors.get('attributesRequired')
 )
 
-export const selectMFA = createSelector(
-  [selectReducer],
-  reducer => reducer.get('mfa')
-)
-export const selectUserSession = createSelector(
-  [selectReducer],
-  reducer => reducer.getIn(['mfa', 'session'])
+export const selectMFARequired = createSelector(
+  [selectLoginErrors],
+  errors => errors.get('mfaRequired')
 )

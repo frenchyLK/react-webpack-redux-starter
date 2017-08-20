@@ -3,6 +3,7 @@ import styles from './index.scss';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form/immutable';
 import PropTypes from 'prop-types';
+import IPropTypes from 'react-immutable-proptypes';
 import DemoField from 'demo-field';
 import { login } from 'cognito-redux/actions';
 import { ERRORS } from 'cognito-redux/constants';
@@ -25,11 +26,7 @@ const LoginError = ({ error, t, formValues }) => {
   return null;
 }
 
-const MFASection = ({ mfa, t }) => {
-  if(!mfa) {
-    return null;
-  }
-
+const MFASection = ({ t }) => {
   return (<div>
     <fieldset>
       <br />
@@ -45,11 +42,7 @@ const MFASection = ({ mfa, t }) => {
   </div>)
 }
 
-const NewPasswordSection = ({ newPasswordRequired, t }) => {
-  if(!newPasswordRequired) {
-    return null;
-  }
-
+const NewPasswordSection = ({ t }) => {
   return (<div>
     <fieldset>
       <br/>
@@ -77,11 +70,6 @@ const LoginSection = ({ t }) => {
 }
 
 const AdditionalAttributesSection = ({ attributesRequired, t }) => {
-
-  if(!attributesRequired || attributesRequired.length === 0) {
-    return null;
-  }
-
   return (<div>
     <fieldset>
       <br/>
@@ -138,7 +126,8 @@ const Login = (props) => {
 };
 
 LoginSection.propTypes = MFASection.propTypes =
-AdditionalAttributesSection.propTypes = NewPasswordSection.propTypes =
+AdditionalAttributesSection.propTypes =
+NewPasswordSection.propTypes =
 LoginError.propTypes = Login.propTypes = {
   t: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
@@ -148,8 +137,7 @@ LoginError.propTypes = Login.propTypes = {
     code: PropTypes.oneOf(Object.values(ERRORS))
   }),
   attributesRequired: PropTypes.arrayOf(PropTypes.string),
-  mfaRequired: PropTypes.bool,
-  mfa: PropTypes.shape({
+  mfaRequired: IPropTypes.mapContains({
     session: PropTypes.string.isRequired
   }),
   handleSubmit: PropTypes.func.isRequired

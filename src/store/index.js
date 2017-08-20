@@ -19,7 +19,11 @@ const defaultSagas = [
 ];
 
 export default (defaultState = Map()) => {
-  const store = createStore(createRootReducer(), defaultState, composeEnhancers(applyMiddleware(...middlewares)));
+  const store = createStore(
+    createRootReducer(),
+    defaultState,
+    composeEnhancers(applyMiddleware(...middlewares))
+  );
 
   defaultSagas.map(sagaMiddleware.run);
 

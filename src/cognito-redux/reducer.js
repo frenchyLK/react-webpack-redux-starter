@@ -14,25 +14,20 @@ export default handleActions({
     .update(
       'loginErrors',
       (errors = Map()) => {
-        const { code, attributesRequired } = payload.errors._error;
+        const { code, attributesRequired, session } = payload.errors._error;
 
-        if(code === ERRORS.NewPasswordRequired) {
-          return errors.set('newPasswordRequired', true);
-        }
-
-        if(code === ERRORS.AttributesRequired) {
-          return errors.set('attributesRequired', fromJS(attributesRequired))
-        }
-
-        if(code === ERRORS.MFARequired) {
-          return undefined;
-        }
+        return errors
+          .set('mfaRequired',
+            code === ERRORS.MFARequired ?
+            fromJS({ session }) :
+            null
+          )
+          .set('attributesRequired',
+            code === ERRORS.AttributesRequired ?
+            fromJS(attributesRequired) :
+            null
+          )
+          .set('newPasswordRequired', code === ERRORS.NewPasswordRequired);
       }
-    )
-    .update(
-      'mfa',
-      mfa => payload.errors._error.code === ERRORS.MFARequired ?
-        fromJS({ session: payload.errors._error.session }) :
-        mfa
     )
 }, Map())

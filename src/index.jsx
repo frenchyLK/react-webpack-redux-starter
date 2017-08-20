@@ -4,11 +4,12 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import App from 'app';
 import i18n from 'i18n';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import { I18nextProvider } from 'react-i18next';
 import { VERSION, RELEASE } from 'APP_CONFIG';
 import { Provider } from 'react-redux';
+import history from 'history';
 import createStore from './store';
 import './index.scss';
 
@@ -19,9 +20,9 @@ const renderApp = (Component) => {
     (<AppContainer>
       <Provider store={ store }>
         <I18nextProvider i18n={ i18n }>
-          <BrowserRouter>
+          <Router history={ history }>
             <Component />
-          </BrowserRouter>
+          </Router>
         </I18nextProvider>
       </Provider>
     </AppContainer>),
