@@ -3,8 +3,10 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const SecureRoute = ({ user, component, ...rest }) => {
+  const Component = component;
+
   return (<Route {...rest} render={props => (
-    user ? (<component {...props}/>) : (<Redirect to={{ pathname: '/login'}}/>)
+    user ? (<Component {...props}/>) : (<Redirect to={{ pathname: '/login'}}/>)
   )}/>);
 };
 

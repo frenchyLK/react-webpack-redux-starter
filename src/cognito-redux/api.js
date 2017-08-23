@@ -52,7 +52,17 @@ class CognitoAuthorizer {
   }
 
   onSuccess(res) {
-    return this._resolve(res);
+    return this._resolve({
+      accessToken: {
+        jwtToken: res.accessToken.jwtToken
+      },
+      idToken: {
+        jwtToken: res.idToken.jwtToken
+      },
+      refreshToken: {
+        token: res.refreshToken.token
+      }
+    });
   }
 
   onFailure(err) {

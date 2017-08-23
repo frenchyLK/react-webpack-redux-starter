@@ -1,5 +1,5 @@
 import React from 'react';
-import autobind from 'react-autobind';
+import autobind from 'class-autobind';
 import { shouldComponentUpdate }  from 'react-immutable-render-mixin';
 /*
   Simple helper component which will autobind all functions on a component

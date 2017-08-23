@@ -4,8 +4,10 @@ import createSagaMiddleware from 'redux-saga';
 import normalizrMiddleware from 'redux-normalizr-middleware';
 import cognitoSagas from 'cognito-redux/sagas';
 import loginSagas from 'login/sagas';
+import redditSagas from 'reddit-api-redux/sagas';
 import { routinesWatcherSaga } from 'redux-saga-routines';
 import { Map } from 'immutable';
+import { persistStore, autoRehydrate } from 'redux-persist-immutable'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,15 +17,18 @@ const middlewares = [sagaMiddleware, normalizrMiddleware()];
 const defaultSagas = [
   routinesWatcherSaga,
   cognitoSagas,
-  loginSagas
+  loginSagas,
+  redditSagas
 ];
 
 export default (defaultState = Map()) => {
   const store = createStore(
     createRootReducer(),
     defaultState,
-    composeEnhancers(applyMiddleware(...middlewares))
+    composeEnhancers(applyMiddleware(...middlewares), autoRehydrate())
   );
+
+  persistStore(store, { whitelist: [ 'cognito' ] });
 
   defaultSagas.map(sagaMiddleware.run);
 
