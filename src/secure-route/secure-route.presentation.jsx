@@ -5,9 +5,14 @@ import PropTypes from 'prop-types';
 const SecureRoute = ({ user, component, ...rest }) => {
   const Component = component;
 
-  return (<Route {...rest} render={props => (
-    user ? (<Component {...props}/>) : (<Redirect to={{ pathname: '/login'}}/>)
-  )}/>);
+  return (<Route {...rest} render={
+    props => {
+      return (user ?
+        (<Component {...props}/>) :
+        (<Redirect to={{ pathname: '/login'}}/>)
+      )
+    }
+  }/>);
 };
 
 SecureRoute.propTypes = {

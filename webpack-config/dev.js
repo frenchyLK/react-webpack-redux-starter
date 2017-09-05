@@ -3,9 +3,16 @@
 const webpack = require('webpack');
 
 module.exports = (conf) => ({
-	entry: [ 'react-hot-loader/patch' ],
+	entry: [
+		'react-hot-loader/patch',
+		'webpack-dev-server/client?https://localhost:8080',
+		'webpack/hot/only-dev-server'
+	],
 	performance: {
 		hints: false
+	},
+	output: {
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -16,7 +23,9 @@ module.exports = (conf) => ({
 		]
 	},
 	plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.NamedModulesPlugin()
 	],
 	devtool: 'source-map',
 	devServer: {

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import IPropTypes from 'react-immutable-proptypes';
 import DemoField from 'demo-field';
 import { login } from 'cognito-redux/actions';
+import AutobindComponent from 'autobind-component';
 import { ERRORS } from 'cognito-redux/constants';
 import classNames from 'classnames';
 import LoadingSpinner from 'loading-spinner';
@@ -91,39 +92,41 @@ const AdditionalAttributesSection = ({ attributesRequired, t }) => {
   </div>);
 }
 
-const Login = (props) => {
-  const {
-    t, valid, handleSubmit, submitting,
-    newPasswordRequired, attributesRequired,
-    mfaRequired
-  } = props;
+class Login extends AutobindComponent {
+  render() {
+    const {
+      t, valid, handleSubmit, submitting,
+      newPasswordRequired, attributesRequired,
+      mfaRequired
+    } = this.props;
 
-  const finalFormClassName = classNames(
-    styles.loginForm,
-    { [styles.submitting]: submitting }
-  )
-
-  const loginRequired = !newPasswordRequired && !attributesRequired && !mfaRequired;
-
-  return (
-    <div className={ styles.loginPage }>
-      <form onSubmit={ handleSubmit(login) } disabled={ !valid || submitting }>
-        <div className={ finalFormClassName }>
-          <h1>Login</h1>
-          { submitting ? (<div className={ styles.spinner }><LoadingSpinner /></div>) : null }
-          { loginRequired ? <LoginSection { ...props } /> : null }
-          { newPasswordRequired ? <NewPasswordSection { ...props } /> : null }
-          { attributesRequired ? <AdditionalAttributesSection { ...props } /> : null }
-          { mfaRequired ? <MFASection { ...props } /> : null }
-          <input type="submit" value="Login" disabled={ !valid || submitting } />
-          <br />
-          <LoginError { ...props } />
-        </div>
-      </form>
-      <Link to="/register">{ t('login:register_now') }</Link>
-    </div>
+    const finalFormClassName = classNames(
+      styles.loginForm,
+      { [styles.submitting]: submitting }
     )
-};
+
+    const loginRequired = !newPasswordRequired && !attributesRequired && !mfaRequired;
+
+    return (
+      <div className={ styles.loginPage }>
+        <form onSubmit={ handleSubmit(login) } disabled={ !valid || submitting }>
+          <div className={ finalFormClassName }>
+            <h1>Login</h1>
+            { submitting ? (<div className={ styles.spinner }><LoadingSpinner /></div>) : null }
+            { loginRequired ? <LoginSection { ...this.props } /> : null }
+            { newPasswordRequired ? <NewPasswordSection { ...this.props } /> : null }
+            { attributesRequired ? <AdditionalAttributesSection { ...this.props } /> : null }
+            { mfaRequired ? <MFASection { ...this.props } /> : null }
+            <input type="submit" value="Login" disabled={ !valid || submitting } />
+            <br />
+            <LoginError { ...this.props } />
+          </div>
+        </form>
+        <Link to="/register">{ t('login:register_now') }</Link>
+      </div>
+      )
+  }
+}
 
 LoginSection.propTypes = MFASection.propTypes =
 AdditionalAttributesSection.propTypes =

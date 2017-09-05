@@ -71,6 +71,7 @@ module.exports = (conf) => {
 				inject: false,
 				env: process.env,
 				title: 'Hello React',
+				baseHref: '/',
 	      appMountId: 'app',
 				favicon: './favicon.ico'
 			})

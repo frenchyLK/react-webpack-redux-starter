@@ -1,18 +1,20 @@
 const REDDIT_API_URL = 'https://www.reddit.com';
 
 const request = ({ endpoint }) => {
-  return fetch(`${REDDIT_API_URL}/${endpoint}`);
+  return fetch(`${REDDIT_API_URL}/${endpoint}`)
+    .then(res => res.json());
 }
 
 export const fetchTopSubrredits = () => {
-  return fetch('api/trending_subreddits.json');
+  return request({ endpoint: 'api/trending_subreddits.json' })
+    .then(res => res.subreddit_names);
 }
 
-export const fetchPosts = ({ type = 'top', name }) => {
+export const fetchRedditPosts = ({ type = 'top', name }) => {
   if(!name) {
     return Promise.reject('Cannot fetch posts; no name provided');
   }
 
-  return request(`/r/${name}/${type}.json`)
-    .then(res => res.data.children);
+  return request({ endpoint: `/r/${name}/${type}.json` })
+    .then(res => ({ subreddit: name, posts: res.data.children.map(c => c.data) }));
 }

@@ -1,35 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Login from 'login';
 import Register from 'register';
 import Header from 'header';
 import ResetPassword from 'reset-password';
 import Dashboard from 'dashboard';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import SecureRoute from 'secure-route';
-import hocs from 'common-hocs';
-import { REDUCER_NAME } from './reducer';
+import styles from './index.scss';
 
-const App = ({ rehydrate }) => {
-  if(!rehydrate) {
-    return (<div>Loading</div>)
-  }
-
-  return (<div>
+const App = () => {
+  return (<div className={ styles.appWrapper }>
     <Header />
-    <Route path="/login" component={ Login }/>
-    <Route path="/reset_password" component={ ResetPassword }/>
-    <Route path="/register" component={ Register }/>
-    <SecureRoute path="/dashboard" component={ Dashboard }/>
+    <Switch>
+      <Route path="/login" component={ Login }/>
+      <Route path="/reset_password" component={ ResetPassword }/>
+      <Route path="/register" component={ Register }/>
+      <SecureRoute path="/r" component={ Dashboard }/>
+      <Route component={ Dashboard } />
+    </Switch>
   </div>);
-};
-
-App.propTypes = {
-  rehydrate: PropTypes.bool
 }
 
-const mapState = state => ({
-  rehydrate: state.getIn([ REDUCER_NAME, 'rehydrate'])
-});
-
-export default hocs({ redux: { mapState } })(App);
+export default App;

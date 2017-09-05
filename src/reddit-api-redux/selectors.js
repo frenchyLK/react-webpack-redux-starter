@@ -7,3 +7,8 @@ export const selectSubReddits = createSelector(
   [selectReducer],
   reducer => reducer.get('subreddits')
 )
+
+export const selectPosts = createSelector(
+  [selectReducer],
+  reducer => reducer.get('posts')
+)

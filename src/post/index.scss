@@ -1,0 +1,40 @@
+.postWrapper {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+  justify-content: center;
+}
+
+.postWrapper:active {
+  color: white;
+  text-decoration: none;
+}
+
+.postWrapper:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+.postWrapper label {
+  color: white;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.postWrapper:hover {
+  opacity: 0.40;
+}
+
+.postWrapper img {
+  height: 80%;
+  padding: 5px;
+}

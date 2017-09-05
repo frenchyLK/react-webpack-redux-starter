@@ -1,7 +1,7 @@
 {
   "administration": "Change Language",
   "dashboard": "English",
-  "logout": "ES - Spanish",
+  "logout": "Logout",
   "login": "Login",
   "sign_up": "Register",
   "welcome": "Welcome, {{ username }}",

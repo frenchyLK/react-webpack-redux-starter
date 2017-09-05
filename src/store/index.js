@@ -7,12 +7,16 @@ import loginSagas from 'login/sagas';
 import redditSagas from 'reddit-api-redux/sagas';
 import { routinesWatcherSaga } from 'redux-saga-routines';
 import { Map } from 'immutable';
-import { persistStore, autoRehydrate } from 'redux-persist-immutable'
+import { routerMiddleware } from 'react-router-redux';
+import history from 'history';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const sagaMiddleware = createSagaMiddleware();
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middlewares = [sagaMiddleware, normalizrMiddleware()];
+const middlewares = [
+  sagaMiddleware, normalizrMiddleware(), routerMiddleware(history)
+];
 
 const defaultSagas = [
   routinesWatcherSaga,
@@ -25,10 +29,8 @@ export default (defaultState = Map()) => {
   const store = createStore(
     createRootReducer(),
     defaultState,
-    composeEnhancers(applyMiddleware(...middlewares), autoRehydrate())
+    composeEnhancers(applyMiddleware(...middlewares))
   );
-
-  persistStore(store, { whitelist: [ 'cognito' ] });
 
   defaultSagas.map(sagaMiddleware.run);
 

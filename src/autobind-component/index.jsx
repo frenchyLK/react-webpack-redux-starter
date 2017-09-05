@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'class-autobind';
 import { shouldComponentUpdate }  from 'react-immutable-render-mixin';
 /*
@@ -19,8 +20,16 @@ import { shouldComponentUpdate }  from 'react-immutable-render-mixin';
 class AutobindComponent extends React.Component {
   constructor(props) {
     super(props);
+    this.shouldUpdate = shouldComponentUpdate;
     autobind(this);
-    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { location } = this.props;
+
+    const locationChanged = location && location.pathname !== nextProps.location.pathname;
+
+    return locationChanged || this.shouldUpdate(nextProps, nextState);
   }
 }
 
@@ -28,6 +37,12 @@ class AutobindComponent extends React.Component {
 // so we don't have to define it in tests
 AutobindComponent.defaultProps = {
   t: e => e
+}
+
+AutobindComponent.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
 }
 
 export default AutobindComponent;

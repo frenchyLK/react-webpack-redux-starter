@@ -5,6 +5,10 @@ import { ERRORS } from './constants';
 
 const pool = new CognitoUserPool(COGNITO_POOL_DETAILS);
 
+export const currentUser = () => {
+  return pool.getCurrentUser();
+};
+
 const _requiredAttributePresent = (attribute, userAttributes, newAttributes) => {
   if(userAttributes && userAttributes[attribute] !== '') {
     return true;
@@ -51,18 +55,8 @@ class CognitoAuthorizer {
     return this._promise;
   }
 
-  onSuccess(res) {
-    return this._resolve({
-      accessToken: {
-        jwtToken: res.accessToken.jwtToken
-      },
-      idToken: {
-        jwtToken: res.idToken.jwtToken
-      },
-      refreshToken: {
-        token: res.refreshToken.token
-      }
-    });
+  onSuccess() {
+    return this._resolve(currentUser());
   }
 
   onFailure(err) {
