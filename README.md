@@ -3,6 +3,9 @@
 Personal starter kit for React, Webpack2 and Redux starter kit.
 Nothing is guaranteed to work, nothing is guaranteed to be maintained.
 
+## How do I start using this?
+git clone --depth=1 https://github.com/john-benson/react-webpack-redux-starter.git your-project-name
+
 ## What do I Start With?
 By default, this package comes with the following packages:
 
