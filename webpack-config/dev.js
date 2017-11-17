@@ -2,11 +2,9 @@
 
 const webpack = require('webpack');
 
-module.exports = (conf) => ({
+module.exports = {
 	entry: [
-		'react-hot-loader/patch',
-		'webpack-dev-server/client?https://localhost:8080',
-		'webpack/hot/only-dev-server'
+		'react-hot-loader/patch'
 	],
 	performance: {
 		hints: false
@@ -39,4 +37,4 @@ module.exports = (conf) => ({
 			children: false
 		}
 	}
-})
+}

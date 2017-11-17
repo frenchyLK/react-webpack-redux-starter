@@ -6,7 +6,7 @@ const selectReducer = state => state.get(REDUCER_NAME);
 
 export const selectUser = createSelector(
   [selectReducer],
-  reducer => reducer.get('user', null) 
+  reducer => reducer.get('user', null)
 )
 
 const selectLoginErrors = createSelector(

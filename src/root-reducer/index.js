@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux-immutable';
 import { reducer as reduxFormReducer } from 'redux-form/immutable';
-import redditReducer, { REDUCER_NAME as REDDIT_REDUCER_NAME } from 'reddit-api-redux/reducer';
-import cognitoReducer, { REDUCER_NAME as COGNITO_REDUCER_NAME } from 'cognito-redux/reducer';
 import { routerReducer } from 'react-router-redux';
+import { Map } from 'immutable';
 
-export default (asyncReducers) => combineReducers({
+const reducerCtx = require.context('../', true, /reducer.js/);
+
+const reducers = Map(
+  reducerCtx.keys().map(item => {
+    const res = reducerCtx(item);
+    return [res.REDUCER_NAME, res.default];
+  })
+).toJS();
+
+export default combineReducers({
+  router: routerReducer,
   form: reduxFormReducer,
-  [COGNITO_REDUCER_NAME]: cognitoReducer,
-  [REDDIT_REDUCER_NAME]: redditReducer,
-  'router': routerReducer,
-  ...asyncReducers
-})
+  ...reducers
+});

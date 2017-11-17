@@ -9,7 +9,8 @@ const mapState = (state, props) => ({
 });
 
 const mapDispatch = {
-  fetchSubReddits: fetchSubReddits.trigger, push
+  fetchSubReddits: fetchSubReddits.trigger,
+  push
 };
 
 export default hocs({ redux: { mapState, mapDispatch }, i18n: [ 'dashboard' ], router: true })(Dashboard);

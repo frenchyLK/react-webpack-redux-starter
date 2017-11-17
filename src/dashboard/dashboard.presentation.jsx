@@ -29,7 +29,7 @@ class Dashboard extends Autobind {
       <div className={ styles.dashboardWrapper }>
         <label>{ t('dashboard:popular_subreddits') }</label>
         <select onChange={ this.onChangeSubreddit } value={ currentSubReddit }>
-          <option value={ null } label={ '' } />
+          <option value={ '' } label={ '' } />
           {
             subReddits.map((item, i) => (<option
                 key={ `${i}-${item}` }
@@ -42,18 +42,23 @@ class Dashboard extends Autobind {
         <br />
         <label>{ t('dashboard:enter_your_own') }</label>
         <input type="text" onBlur={ this.onChangeSubreddit } />
-        <Route path={ `${match.url}/:srName` } component={ SubReddit } />
+        <Route path={ `${match.url}r/:srName` } component={ SubReddit } />
       </div>
     );
   }
 }
 
 Dashboard.propTypes = {
-  t: PropTypes.func,
+  t: PropTypes.func.isRequired,
   subReddits: IPropTypes.listOf(PropTypes.string),
-  push: PropTypes.func,
-  fetchSubReddits: PropTypes.func,
-  match: PropTypes.any
+  push: PropTypes.func.isRequired,
+  fetchSubReddits: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
+  }).isRequired
 }
 
 export default Dashboard;

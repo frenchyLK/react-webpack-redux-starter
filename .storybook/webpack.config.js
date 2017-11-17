@@ -1,15 +1,15 @@
-const customConfig = require('../webpack.config')('development');
 const merge = require('webpack-merge');
-const PATHS = require('../webpack-config/paths');
+const dev = require('../webpack-config/dev.js');
+const common = require('../webpack-config/common.js');
 
-module.exports = (config, type) => {
-	customConfig.entry = {};
-	customConfig.plugins = [];
-	customConfig.devServer = null;
-	customConfig.resolve.modulesDirectories = customConfig.resolve.modules;
-	delete customConfig.resolve.modules;
+delete common.plugins;
 
-	const result = merge(config, customConfig);
+module.exports = config => merge(
+  // we want everything from common except the plugins
+  Object.assign({}, common('dev'), { plugins: [] }),
 
-	return result;
-};
+  // we only want the modules from dev
+  { module: dev.module },
+
+  config
+)

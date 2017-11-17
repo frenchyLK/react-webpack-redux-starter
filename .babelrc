@@ -5,8 +5,19 @@
     "es2015",
     "stage-3"
   ],
+  "plugins": [
+    [
+      "transform-imports",
+      {
+        "redux-form": {
+          "transform": "redux-form/es/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
+  ],
   "env": {
-    "development": {
+    "dev": {
       "plugins": ["react-hot-loader/babel"]
     }
   }

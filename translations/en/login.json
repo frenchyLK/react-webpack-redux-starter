@@ -9,12 +9,6 @@
   "new_password_required": "New Password is required",
   "mfa_code": "MFA Code",
   "mfa_code_required": "MFA Code is required",
-  "additional_information": "Additional Required Information",
-  "UserNotFoundException": "No user with name {{ username }} was found.",
-  "NewPasswordRequired": "Your password has expired; please enter a new password",
-  "InvalidPasswordException": "An error occured with your new password: {{ message }}",
-  "NotAuthorizedException": "Your password was incorrect",
-  "AttributesRequired": "We require additional information about your account; please provide the required information",
-  "MFARequired": "We have sent a security code to your registered device.",
-  "InvalidParameterException": "Some attribute you have provided is invalid; please review the following error message and correct the error: {{ message }}"
+  "login": "Login",
+  "additional_information": "Additional Required Information"
 }

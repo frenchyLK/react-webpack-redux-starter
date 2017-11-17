@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from 'login';
 import Register from 'register';
+import Verify from 'verify';
 import Header from 'header';
 import ResetPassword from 'reset-password';
 import Dashboard from 'dashboard';
@@ -13,10 +14,10 @@ const App = () => {
     <Header />
     <Switch>
       <Route path="/login" component={ Login }/>
+      <Route path="/:username/verify" component={ Verify }/>
       <Route path="/reset_password" component={ ResetPassword }/>
       <Route path="/register" component={ Register }/>
-      <SecureRoute path="/r" component={ Dashboard }/>
-      <Route component={ Dashboard } />
+      <SecureRoute component={ Dashboard } />
     </Switch>
   </div>);
 }

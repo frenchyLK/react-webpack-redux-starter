@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 const SecureRoute = ({ user, component, ...rest }) => {
   const Component = component;
-
   return (<Route {...rest} render={
     props => {
       return (user ?
@@ -17,7 +16,7 @@ const SecureRoute = ({ user, component, ...rest }) => {
 
 SecureRoute.propTypes = {
   user: PropTypes.any,
-  component: PropTypes.any
+  component: PropTypes.any.isRequired
 };
 
 export default SecureRoute;

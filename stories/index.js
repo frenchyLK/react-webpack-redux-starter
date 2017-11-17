@@ -1,13 +1,7 @@
-import React from 'react';
-import { storiesOf, action } from '@kadira/storybook';
-import { withKnobs } from '@kadira/storybook-addon-knobs';
-
-const stories = storiesOf('Application', module);
-stories.addDecorator(withKnobs);
-
+import { withKnobs } from '@storybook/addon-knobs';
 const storyContextes = require.context('./', true, /.jsx/);
 
-const res = storyContextes.keys().forEach(i => {
+storyContextes.keys().forEach(i => {
 	const res = storyContextes(i);
-	res.default(stories);
+	res.default.addDecorator(withKnobs);
 });

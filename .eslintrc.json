@@ -1,7 +1,7 @@
 {
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "plugins": [
-    "react", "mocha"
+    "react", "jest"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -16,7 +16,8 @@
     "browser": true,
     "node": true,
     "jasmine": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }],
@@ -24,6 +25,9 @@
     "eqeqeq": "warn",
     "react/react-in-jsx-scope": "error",
     "react/jsx-filename-extension": "warn",
-    "mocha/no-exclusive-tests": "error"
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/valid-expect": "error"
   }
 }

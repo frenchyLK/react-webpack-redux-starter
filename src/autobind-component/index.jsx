@@ -25,6 +25,8 @@ class AutobindComponent extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    // additional logic to properly re-render components if the location
+    // is updated. This handles certain cases where should update isn't correct
     const { location } = this.props;
 
     const locationChanged = location && location.pathname !== nextProps.location.pathname;

@@ -7,121 +7,66 @@ import IPropTypes from 'react-immutable-proptypes';
 import DemoField from 'demo-field';
 import { login } from 'cognito-redux/actions';
 import AutobindComponent from 'autobind-component';
-import { ERRORS } from 'cognito-redux/constants';
-import classNames from 'classnames';
-import LoadingSpinner from 'loading-spinner';
-import { List } from 'immutable';
+import validate from './validate';
+import DemoForm from 'demo-form';
+import { FORM_NAME } from './constants';
 
-const MANAGED_ERRORS = List([
-  ERRORS.NewPasswordRequired, ERRORS.AttributesRequired, ERRORS.MFARequired
-]);
-
-const LoginError = ({ error, t, formValues }) => {
-
-  if(error && !MANAGED_ERRORS.contains(error.code)) {
-    return (<div className={ styles.loginError }>
-      { t(`login:${error.code}`, { username: formValues.get('username'), message: error.message }) }
-    </div>);
-  }
-
-  return null;
-}
 
 const MFASection = ({ t }) => {
-  return (<div>
-    <fieldset>
-      <br />
-      <div className={ styles.loginWarn }>
-        { t(`login:MFARequired`) }
-      </div>
-      <br />
-      <label>{ t('login:mfa_code')}</label>
-      <Field required={ true } component={ DemoField } type="text" name="mfaCode" />
-      <br />
-    </fieldset>
-    <br />
-  </div>)
+  return (<fieldset>
+    <Field
+      required={ true } component={ DemoField } type="text"
+      name="mfaCode" label={ t('login:mfa_code') }
+    />
+  </fieldset>)
 }
 
 const NewPasswordSection = ({ t }) => {
-  return (<div>
-    <fieldset>
-      <br/>
-      <div className={ styles.loginWarn }>
-        { t(`login:NewPasswordRequired`) }
-      </div>
-      <br />
-      <label>{ t('login:new_password')}</label>
-      <Field required={ true } component={ DemoField } type="text" name="newPassword" />
-      <br />
-      </fieldset>
-    <br/>
-  </div>);
+  return (<fieldset>
+    <Field required={ true } component={ DemoField } type="text" name="newPassword" label={ t('login:new_password') } />
+  </fieldset>);
 }
 
 const LoginSection = ({ t }) => {
-  return (<div>
-    <label>{ t('login:username') }</label>
-    <Field component={ DemoField } type="text" name="username" />
-    <br />
-    <label>{ t('login:password') }</label>
-    <Field component={ DemoField } type="password" name="password" />
-    <br />
-  </div>)
+  return ([
+    <Field key='username' component={ DemoField } type="text" name="username" label={ t('login:username') } />,
+    <Field key='password' component={ DemoField } type="password" name="password" label={ t('login:password') } />
+  ])
 }
 
 const AdditionalAttributesSection = ({ attributesRequired, t }) => {
-  return (<div>
-    <fieldset>
-      <br/>
-      <div className={ styles.loginWarn }>
-        { t(`login:AttributesRequired`) }
-      </div>
-      <br/>
-      {
-        attributesRequired.map((attr, i) => (
-          <div key={ `${attr}:${i}`}>
-            <label>{ t(`login:${attr}`)}</label>
-            <Field required={ true } component={ DemoField } type="text" name={ `attributesData.${attr}` } />
-            <br />
-          </div>
-        ))
-      }
-    </fieldset>
-    <br />
-  </div>);
+  return (<fieldset>
+    {
+      attributesRequired.map((attr, i) => (
+        <div key={ `${attr}:${i}`}>
+          <Field
+            required={ true } component={ DemoField } type="text"
+            name={ `attributesData.${attr}` } label={ t(`login:${attr}`) }
+          />
+        </div>
+      ))
+    }
+  </fieldset>);
 }
 
 class Login extends AutobindComponent {
   render() {
-    const {
-      t, valid, handleSubmit, submitting,
-      newPasswordRequired, attributesRequired,
-      mfaRequired
-    } = this.props;
-
-    const finalFormClassName = classNames(
-      styles.loginForm,
-      { [styles.submitting]: submitting }
-    )
+    const { t, newPasswordRequired, attributesRequired, mfaRequired } = this.props;
 
     const loginRequired = !newPasswordRequired && !attributesRequired && !mfaRequired;
 
     return (
       <div className={ styles.loginPage }>
-        <form onSubmit={ handleSubmit(login) } disabled={ !valid || submitting }>
-          <div className={ finalFormClassName }>
-            <h1>Login</h1>
-            { submitting ? (<div className={ styles.spinner }><LoadingSpinner /></div>) : null }
-            { loginRequired ? <LoginSection { ...this.props } /> : null }
-            { newPasswordRequired ? <NewPasswordSection { ...this.props } /> : null }
-            { attributesRequired ? <AdditionalAttributesSection { ...this.props } /> : null }
-            { mfaRequired ? <MFASection { ...this.props } /> : null }
-            <input type="submit" value="Login" disabled={ !valid || submitting } />
-            <br />
-            <LoginError { ...this.props } />
-          </div>
-        </form>
+        <DemoForm onSubmit={ login } validate={ validate } form={ FORM_NAME } header={ t('login:login') } submitLabel={ t('login:login') }>
+          {
+            (formsProps) => ([
+              (loginRequired ? <LoginSection key='loginSection' { ...formsProps } /> : null),
+              (newPasswordRequired ? <NewPasswordSection key='newPasswordSection' { ...formsProps } /> : null),
+              (attributesRequired ? <AdditionalAttributesSection key='additionalAttrSection' { ...formsProps } { ...this.props } /> : null),
+              (mfaRequired ? <MFASection key='mfaSection' { ...formsProps } /> : null)
+            ])
+          }
+        </DemoForm>
         <Link to="/register">{ t('login:register_now') }</Link>
       </div>
       )
@@ -130,20 +75,13 @@ class Login extends AutobindComponent {
 
 LoginSection.propTypes = MFASection.propTypes =
 AdditionalAttributesSection.propTypes =
-NewPasswordSection.propTypes =
-LoginError.propTypes = Login.propTypes = {
+NewPasswordSection.propTypes = Login.propTypes = {
   t: PropTypes.func.isRequired,
-  submitting: PropTypes.bool,
-  valid: PropTypes.bool,
   newPasswordRequired: PropTypes.bool,
-  error: PropTypes.shape({
-    code: PropTypes.oneOf(Object.values(ERRORS))
-  }),
   attributesRequired: PropTypes.arrayOf(PropTypes.string),
   mfaRequired: IPropTypes.mapContains({
     session: PropTypes.string.isRequired
-  }),
-  handleSubmit: PropTypes.func.isRequired
+  })
 }
 
 export default Login;

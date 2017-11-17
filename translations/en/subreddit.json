@@ -1,3 +1,3 @@
 {
-  "currently_viewing": "Currently Viewing"
+  "currently_viewing": "Currently Viewing {{ name }}"
 }

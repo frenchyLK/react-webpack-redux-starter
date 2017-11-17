@@ -1,5 +1,4 @@
 import 'regenerator-runtime/runtime';
-import 'isomorphic-fetch';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import App from 'app';
@@ -15,21 +14,31 @@ import { currentUser } from 'cognito-redux/api';
 import { fromJS } from 'immutable';
 import './index.scss';
 
-const store = createStore(fromJS({ cognito: { user: currentUser() } }));
+/*
+  Since we need to wait for the cognito chunk to load;
+  we need to wait for the store to build
+*/
+const asyncStore = currentUser().then(user => {
+  return createStore(fromJS({ cognito: { user } }))
+});
 
 const renderApp = (Component) => {
-  ReactDOM.render(
-    (<AppContainer>
-      <Provider store={ store }>
-        <I18nextProvider i18n={ i18n }>
-          <ConnectedRouter history={ history }>
-            <Component />
-          </ConnectedRouter>
-        </I18nextProvider>
-      </Provider>
-    </AppContainer>),
-    document.getElementById('app')
-  );
+
+  asyncStore.then(store => {
+    ReactDOM.render(
+      (<AppContainer>
+        <Provider store={ store }>
+          <I18nextProvider i18n={ i18n }>
+            <ConnectedRouter history={ history }>
+              <Component />
+            </ConnectedRouter>
+          </I18nextProvider>
+        </Provider>
+      </AppContainer>),
+      document.getElementById('app')
+    );
+  })
+
 }
 
 renderApp(App);

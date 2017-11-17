@@ -16,8 +16,8 @@ class SubReddit extends AutobindComponent {
   componentWillReceiveProps(nextProps) {
     const { fetchPosts, match } = this.props;
 
-    if(nextProps.match.params.srName !== match.params.srName ) {
-        fetchPosts({ name: nextProps.match.params.srName });
+    if(nextProps.match.params.srName && nextProps.match.params.srName !== match.params.srName ) {
+      fetchPosts({ name: nextProps.match.params.srName });
     }
   }
 
@@ -27,8 +27,7 @@ class SubReddit extends AutobindComponent {
     return (
       <div className={ styles.subredditWrapper }>
         <div className={ styles.header }>
-          <span>{t('currently_viewing')}</span>
-          <span>/r/{ match.params.srName }</span>
+          <span>{t('currently_viewing', { name: `${ match.params.srName}` })}</span>
         </div>
         <div className={ styles.postWrapper }>
           {
@@ -46,10 +45,10 @@ class SubReddit extends AutobindComponent {
 SubReddit.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      srName: PropTypes.string
-    })
-  }),
-  fetchPosts: PropTypes.func,
+      srName: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  fetchPosts: PropTypes.func.isRequired,
   posts: IPropTypes.list
 }
 

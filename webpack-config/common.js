@@ -1,33 +1,21 @@
 'use strict';
 
 const PATHS = require('./paths');
-const path = require('path');
-const pkg = require('../package.json');
 const webpack = require('webpack');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const APP_CONFIG = require('./settings.js');
 
-module.exports = (conf) => {
-
-	const APP_CONFIG = {
-		RELEASE: new Date().getTime(),
-		VERSION: pkg.version,
-		COGNITO_POOL_DETAILS: {
-			UserPoolId: 'us-east-1_uZnV6X67E',
-			ClientId: '7aecufhfkk4s81daar8dqhm141'
-		}
-	};
-
+module.exports = (config) => {
 	return {
 		entry: [ PATHS.src ],
 		module: {
 			rules: [
-	      {
-	        test: /\.jsx?$/,
-	        use: 'eslint-loader',
-	        include: [ PATHS.src ],
+				{
+					test: /\.jsx?$/,
+					use: 'eslint-loader',
+					include: [ PATHS.src ],
 					enforce: 'pre'
-	      },
+				},
 				{
 					test: /.(js|jsx)$/,
 					include: [ PATHS.src ],
@@ -62,7 +50,7 @@ module.exports = (conf) => {
 			modules: [ PATHS.src, PATHS.node_modules, PATHS.translations ]
 		},
 		externals: {
-			'APP_CONFIG': JSON.stringify(APP_CONFIG)
+			'APP_CONFIG': JSON.stringify(APP_CONFIG(config))
 		},
 		plugins: [
 			new webpack.NamedModulesPlugin(),
@@ -72,7 +60,7 @@ module.exports = (conf) => {
 				env: process.env,
 				title: 'Hello React',
 				baseHref: '/',
-	      appMountId: 'app',
+				appMountId: 'app',
 				favicon: './favicon.ico'
 			})
 		]

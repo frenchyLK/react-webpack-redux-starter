@@ -1,27 +1,34 @@
-import { login } from './actions';
-import { takeLatest, put, call } from 'redux-saga/effects'
-import { authorize } from './api';
-import { SubmissionError } from 'redux-form/immutable';
+import { login, register, verify } from './actions';
+import { authorize, signUp, verifyUser } from './api';
+import { takeLatestRoutine } from 'utils';
+import { SubmissionError } from 'redux-form/immutable'
 
-function* onLogin(action) {
+function* onLogin({ payload }) {
   try {
-
-    const payload = action.payload;
-
-    yield put(login.request());
-
-    const result = yield call(authorize, payload.toJS());
-
-    yield put(login.success(result));
+    return yield authorize(payload.toJS());
   } catch (e) {
-    const error = new SubmissionError({ _error: e });
-    
-    yield put(login.failure(error));
+    throw new SubmissionError({ _error: e });
   }
+}
 
-  yield put(login.fulfill());
+function* onRegister({ payload }) {
+  try {
+    return yield signUp(payload.toJS());
+  } catch (e) {
+    throw new SubmissionError({ _error: e });
+  }
+}
+
+function* onVerify({ payload }) {
+  try {
+    return yield verifyUser(payload.toJS());
+  } catch (e) {
+    throw new SubmissionError({ _error: e });
+  }
 }
 
 export default function* () {
-  yield takeLatest(login.TRIGGER, onLogin)
+  yield takeLatestRoutine(login, onLogin)
+  yield takeLatestRoutine(register, onRegister)
+  yield takeLatestRoutine(verify, onVerify)
 }

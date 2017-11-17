@@ -1,14 +1,12 @@
 'use strict';
 
 const webpack = require('webpack');
-const pkg = require('../package.json');
-const path = require('path');
 const PATHS = require('./paths');
 
 const CleanPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = (conf) => ({
+module.exports = {
   output: {
     path: PATHS.build,
     publicPath: '/',
@@ -28,9 +26,7 @@ module.exports = (conf) => ({
 	devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env':{
-        'NODE_ENV': JSON.stringify('production')
-      }
+      'process.env.NODE_ENV': '"production"'
     }),
     new CleanPlugin([PATHS.build], {
       root: process.cwd() // because Windows
@@ -41,11 +37,6 @@ module.exports = (conf) => ({
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: ({ resource }) => /node_modules/.test(resource)
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: true,
-      children: true,
       minChunks: ({ resource }) => /node_modules/.test(resource)
     }),
     new webpack.LoaderOptionsPlugin({
@@ -66,4 +57,4 @@ module.exports = (conf) => ({
       comments: false
     })
   ]
-});
+};

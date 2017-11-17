@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { login } from './actions';
+import { login, logout } from './actions';
 import { Map, fromJS } from 'immutable';
 import { ERRORS } from './constants';
 
@@ -29,5 +29,9 @@ export default handleActions({
           )
           .set('newPasswordRequired', code === ERRORS.NewPasswordRequired);
       }
-    )
+    ),
+    [logout]: (state, { payload }) => {
+      payload.signOut()
+      return state.remove('user')
+    }
 }, Map())

@@ -15,10 +15,12 @@ const LoggedOutControls = ({ t, user, location }) => {
   </div>)
 };
 
-const LoggedInControls = ({ t }) => {
-  return (<div>
-    <input type="button" value={ t('logout') } />
-  </div>)
+const LoggedInControls = ({ t, user, logout }) => {
+  return (
+    <div>
+      <input type="button" value={ t('logout') } onClick={() => logout(user)}/>
+    </div>
+  )
 };
 
 const Header = (props) => {

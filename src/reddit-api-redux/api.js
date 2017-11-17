@@ -16,5 +16,5 @@ export const fetchRedditPosts = ({ type = 'top', name }) => {
   }
 
   return request({ endpoint: `/r/${name}/${type}.json` })
-    .then(res => ({ subreddit: name, posts: res.data.children.map(c => c.data) }));
+    .then(res => res.data.children.map(item => item.data));
 }
