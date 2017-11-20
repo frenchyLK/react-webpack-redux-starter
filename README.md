@@ -1,7 +1,7 @@
 ## Getting Started
 
 #### How to fork this project
-1. `git clone --depth=1 https://bitbucket.org/bluespurs/react-starter-kit.git your-project-name`
+1. `git clone --depth=1 https://github.com/john-benson/react-webpack-redux-starter.git your-project-name`
 2. You'll likely want to remove the "examples" from this project; that includes:
  - `src/post`
  - `src/dashboard`
