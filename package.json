@@ -27,7 +27,7 @@
       "jsx"
     ],
     "moduleDirectories": [
-      "node_modules",
+      "node_modules"
       "src"
     ],
     "setupFiles": [
@@ -79,7 +79,13 @@
     "webpack": "~3.5.3",
     "webpack-bundle-analyzer": "~2.8.3",
     "webpack-dev-server": "~2.7.1",
-    "webpack-merge": "~4.1.0"
+    "webpack-merge": "~4.1.0",
+    "enzyme": "~3.0.0-alpha.1",
+    "babel-jest": "~20.0.3",
+    "identity-obj-proxy": "~3.0.0",
+    "jest": "~21.0.1",
+    "jest-static-stubs": "~0.0.1",
+    "react-test-renderer": "~16.0.0-alpha.12"
   },
   "dependencies": {
     "amazon-cognito-identity-js": "~1.21.0",
