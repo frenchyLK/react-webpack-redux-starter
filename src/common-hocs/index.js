@@ -12,7 +12,7 @@ export default({ i18n, redux, router = false, form }) => WrappedComponent => {
   const _router = router ? withRouter : id;
   const _form = form ? reduxForm(form) : id;
 
-  const finalHoc = compose(_connect, _translate, _router, _form);
+  const finalHoc = compose(_form, _connect, _translate, _router);
 
   return finalHoc(WrappedComponent);
 };
